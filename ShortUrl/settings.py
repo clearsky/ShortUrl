@@ -138,7 +138,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'standard': {
-            'format': '[asctime][{threadName}:{thread}][task_id:{name}][{filename}:{lineno}]'
+            'format': '[{asctime}][{threadName}:{thread}][task_id:{name}][{filename}:{lineno}]'
                       '[{levelname}][{message}]',
             'style': '{',
         },
