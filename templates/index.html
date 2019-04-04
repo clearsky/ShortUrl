@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+                $("#submit_input").click(function () {
+                    let long_url = $("#long_url_input").val();
+                    let short_url = $("#short_url_input").val();
+                    $.ajax(
+                        {
+                            url: "/setshorturl/",
+                            type: "POST",
+                            data: {
+                                long_url: long_url,
+                                short_url: short_url,
+                                qrcode: 1,
+                            },
+                            dataType: "json",
+                            success: function (data, status, XMLHttpRequest) {
+                                if($("#show_result")[0]){
+                                    $("#show_result").remove()
+                                }
+                               $("#submit_input").after("<div id='show_result'>msg:" + data["msg"] + ",short_url:" +
+                                   data["short_url"] + ",long_url:" + data["long_url"] + ",code:" + data["code"] +
+                                   "<img src='data:images/gif;base64," + data['qrcode'] + "'> "+ "</div>");
+                            }
+                        }
+                    );
+                });
+                $.ajax(
+                        {
+                            url: "/getcount/",
+                            dataType: "json",
+                            success:function (data, status, XMLHttpRequest) {
+                                $("#submit_input").after("<div>sum_count:" + data["sum_count"] + "</div>");
+                                $("#submit_input").after("<div>redirect_count:" + data["redirect_count"] + "</div>");
+                                $("#submit_input").after("<div>produce_short_url_count:" + data["produce_short_url_count"] + "</div>");
+                                $("#submit_input").after("<div>index_count:" + data["index_count"] + "</div>");
+                            }
+                        }
+                    );
+            }
+        )
+    </script>
+</head>
+<body>
+<div>
+    <span>请输入长URL</span>
+    <input type="text" name="long_url" id="long_url_input">
+    <input type="text" name="short_url" id="short_url_input">
+    <input type="submit" id="submit_input">
+</div>
+</body>
+</html>
